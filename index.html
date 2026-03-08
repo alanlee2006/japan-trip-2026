@@ -939,8 +939,11 @@
         }
         
         function showLocation(lat, lng, name) {
-            // 開啟 Google Maps (手機會彈去app，電腦會開新分頁)
-            const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+            // 移除emoji，只留文字
+            const cleanName = name.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim();
+            
+            // 用景點名稱開啟 Google Maps (會搵到正確既地點)
+            const googleMapsUrl = `https://www.google.com/maps/search/${encodeURIComponent(cleanName)}`;
             window.open(googleMapsUrl, '_blank');
         }
         
