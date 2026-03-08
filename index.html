@@ -939,26 +939,9 @@
         }
         
         function showLocation(lat, lng, name) {
-            // 清除舊標記
-            markers.forEach(m => map.removeLayer(m));
-            markers = [];
-            
-            // 移動地圖
-            map.setView([lat, lng], 14);
-            
-            // 添加新標記
-            const marker = L.marker([lat, lng])
-                .addTo(map)
-                .bindPopup(`<b>${name}</b>`)
-                .openPopup();
-            
-            markers.push(marker);
-            
-            // 更新 active 狀態
-            document.querySelectorAll('.location-tag').forEach(t => t.classList.remove('active'));
-            
-            // Scroll to map
-            document.querySelector('.map-section').scrollIntoView({behavior: 'smooth'});
+            // 開啟 Google Maps (手機會彈去app，電腦會開新分頁)
+            const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+            window.open(googleMapsUrl, '_blank');
         }
         
         function scrollToSection(id) {
