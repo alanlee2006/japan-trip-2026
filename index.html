@@ -942,9 +942,25 @@
             // 移除emoji，只留文字
             const cleanName = name.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim();
             
-            // 用景點名稱開啟 Google Maps (會搵到正確既地點)
-            const googleMapsUrl = `https://www.google.com/maps/search/${encodeURIComponent(cleanName)}`;
-            window.open(googleMapsUrl, '_blank');
+            // 清除舊標記
+            markers.forEach(m => map.removeLayer(m));
+            markers = [];
+            
+            // 移動地圖到該位置
+            map.setView([lat, lng], 16);
+            
+            // 添加標記 (click呢個標記先去Google Maps)
+            const marker = L.marker([lat, lng], {clickable: true})
+                .addTo(map)
+                .bindPopup(`<b>${cleanName}</b><br><a href="https://www.google.com/maps/search/${encodeURIComponent(cleanName)}" target="_blank">📱 開啟 Google Maps</a>`);
+            
+            markers.push(marker);
+            
+            // 更新 active 狀態
+            document.querySelectorAll('.location-tag').forEach(t => t.classList.remove('active'));
+            
+            // Scroll to map
+            document.querySelector('.map-section').scrollIntoView({behavior: 'smooth'});
         }
         
         function scrollToSection(id) {
