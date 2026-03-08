@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎌 日本之旅 2026 | sheep8's Japan Trip</title>
     
-    <!-- Google Maps -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" async defer></script>
+    <!-- Leaflet CSS (免費地圖) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
     <style>
         :root {
@@ -34,7 +34,7 @@
             line-height: 1.6;
         }
         
-        /* Header - Klook style */
+        /* Header */
         header {
             background: var(--gradient);
             padding: 40px 20px;
@@ -64,7 +64,6 @@
             color: var(--white);
             text-shadow: 0 2px 10px rgba(0,0,0,0.2);
             position: relative;
-            margin-bottom: 10px;
         }
         
         header .subtitle {
@@ -109,18 +108,12 @@
             gap: 10px;
         }
         
-        .map-container {
+        #map {
             width: 100%;
-            height: 400px;
+            height: 450px;
             border-radius: 15px;
-            overflow: hidden;
             margin-bottom: 15px;
-        }
-        
-        .map-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+            border: 3px solid var(--accent);
         }
         
         .location-tags {
@@ -133,19 +126,21 @@
             background: var(--light);
             border: 2px solid var(--primary);
             color: var(--primary);
-            padding: 8px 16px;
+            padding: 10px 18px;
             border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s;
-            font-weight: 500;
+            font-weight: 600;
+            font-size: 0.95rem;
         }
         
         .location-tag:hover, .location-tag.active {
             background: var(--primary);
             color: var(--white);
+            transform: scale(1.05);
         }
         
-        /* Accommodation */
+        /* Section */
         .section {
             background: var(--white);
             border-radius: 20px;
@@ -271,7 +266,7 @@
         
         .timeline-item {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             padding: 15px 18px;
             background: var(--light);
             border-radius: 12px;
@@ -282,6 +277,7 @@
         .timeline-item:hover {
             background: #FFE8D6;
             transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.15);
         }
         
         .timeline-item::before {
@@ -295,6 +291,11 @@
             background: var(--primary);
             border: 3px solid var(--white);
             box-shadow: 0 0 0 2px var(--primary);
+        }
+        
+        .timeline-item.is-restaurant::before {
+            background: var(--secondary);
+            box-shadow: 0 0 0 2px var(--secondary);
         }
         
         .time {
@@ -313,11 +314,64 @@
             color: var(--primary-dark);
         }
         
+        .activity .restaurant-name {
+            color: #D35400;
+            font-weight: 600;
+        }
+        
         .emoji {
             margin-right: 5px;
         }
         
-        /* Note Box */
+        /* Restaurant Recommendations */
+        .restaurant-rec {
+            background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+            border: 2px dashed var(--secondary);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .restaurant-rec h4 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .restaurant-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+        }
+        
+        .restaurant-item {
+            background: var(--white);
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid var(--accent);
+        }
+        
+        .restaurant-item:hover {
+            background: var(--secondary);
+            color: var(--white);
+            transform: scale(1.02);
+        }
+        
+        .restaurant-item .name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .restaurant-item .type {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        /* Note */
         .note {
             background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
             border-left: 4px solid var(--secondary);
@@ -327,7 +381,7 @@
             color: #E65100;
         }
         
-        /* Important Notes */
+        /* Important Grid */
         .important-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -359,11 +413,7 @@
             color: var(--white);
         }
         
-        footer p {
-            opacity: 0.9;
-        }
-        
-        /* Print Button */
+        /* FAB */
         .fab {
             position: fixed;
             bottom: 25px;
@@ -381,6 +431,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 1000;
         }
         
         .fab:hover {
@@ -388,7 +439,7 @@
             background: var(--primary-dark);
         }
         
-        /* Navigation */
+        /* Nav */
         .nav-tabs {
             display: flex;
             gap: 10px;
@@ -417,7 +468,8 @@
             header h1 { font-size: 2rem; }
             .day-header { flex-direction: column; gap: 10px; text-align: center; }
             .hotel-grid { grid-template-columns: 1fr; }
-            .map-container { height: 300px; }
+            #map { height: 350px; }
+            .restaurant-list { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -432,36 +484,29 @@
     <div class="container">
         <!-- Map Section -->
         <section class="map-section">
-            <h2>🗺️ 地圖总览</h2>
-            <div class="map-container" id="map">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d3240!2d139.77!3d35.68!4z!3m9!1s0x0:0x0!5e0!3m2!1sen!2sjp!4v1"
-                    allowfullscreen="" 
-                    loading="lazy"
-                    id="mapFrame">
-                </iframe>
-            </div>
+            <h2>🗺️ 地圖總覽</h2>
+            <div id="map"></div>
             <div class="location-tags">
-                <span class="location-tag" onclick="showLocation('Kamogawa Sea World', 35.1167, 139.9667)">🌊 鴨川海洋世界</span>
-                <span class="location-tag" onclick="showLocation('Costco New Sando', 35.7867, 139.8733)">🛒 Costco 新三鄉</span>
-                <span class="location-tag" onclick="showLocation('Tokyo Tower', 35.6586, 139.7454)">🗼 東京鐵塔</span>
-                <span class="location-tag" onclick="showLocation('Senso-ji Temple', 35.7148, 139.7967)">⛩️ 浅草寺</span>
-                <span class="location-tag" onclick="showLocation('Sneaker Dunk Akihabara', 35.6983, 139.7731)">🏀 Sneaker Dunk</span>
-                <span class="location-tag" onclick="showLocation('Sendai Station', 38.2604, 140.8824)">🚄 仙台站</span>
-                <span class="location-tag" onclick="showLocation('Zao Onsen', 38.1333, 140.3833)">♨️ 蔵王温泉</span>
-                <span class="location-tag" onclick="showLocation('Nikka Miyagikyo Distillery', 38.3167, 140.5667)">🥃 宮崎峽蒸餾所</span>
-                <span class="location-tag" onclick="showLocation('Sendai Castle', 38.2689, 140.8722)">🏯 仙台城跡</span>
+                <span class="location-tag" data-lat="35.1167" data-lng="139.9667">🌊 鴨川海洋世界</span>
+                <span class="location-tag" data-lat="35.7867" data-lng="139.8733">🛒 Costco 新三鄉</span>
+                <span class="location-tag" data-lat="35.6586" data-lng="139.7454">🗼 東京鐵塔</span>
+                <span class="location-tag" data-lat="35.7148" data-lng="139.7967">⛩️ 淺草寺</span>
+                <span class="location-tag" data-lat="35.6983" data-lng="139.7731">🏀 Sneaker Dunk</span>
+                <span class="location-tag" data-lat="38.2604" data-lng="140.8824">🚄 仙台站</span>
+                <span class="location-tag" data-lat="38.1333" data-lng="140.3833">♨️ 蔵王溫泉</span>
+                <span class="location-tag" data-lat="38.3167" data-lng="140.5667">🥃 宮崎峽蒸餾所</span>
+                <span class="location-tag" data-lat="38.2689" data-lng="140.8722">🏯 仙台城跡</span>
             </div>
         </section>
         
-        <!-- Navigation -->
+        <!-- Nav -->
         <div class="nav-tabs">
             <span class="nav-tab active" onclick="scrollToSection('itinerary')">📋 行程</span>
             <span class="nav-tab" onclick="scrollToSection('hotels')">🏨 住宿</span>
             <span class="nav-tab" onclick="scrollToSection('notes')">⚠️ 預訂</span>
         </div>
         
-        <!-- Accommodation -->
+        <!-- Hotels -->
         <section class="section" id="hotels">
             <h2>🏨 住宿一覽</h2>
             <div class="hotel-grid">
@@ -482,7 +527,7 @@
                 </div>
                 <div class="hotel-card">
                     <div class="date">4/6</div>
-                    <div class="name">♨️ 蔵王国際ホテル</div>
+                    <div class="name">♨️ 蔵王國際大酒店</div>
                     <div class="location">山形縣</div>
                 </div>
             </div>
@@ -497,15 +542,13 @@
                     <span class="day-date">3月31日 (一) 🦆 鴨川</span>
                 </div>
                 <div class="day-content">
-                    <div class="day-hotel">
-                        🏨 住宿：<strong>鴨川館</strong>
-                    </div>
+                    <div class="day-hotel">🏨 住宿：<strong>鴨川館</strong></div>
                     <div class="timeline">
-                        <div class="timeline-item" onclick="showLocation('Narita Airport', 35.7720, 140.3929)">
+                        <div class="timeline-item" data-lat="35.7720" data-lng="140.3929">
                             <div class="time">晚機</div>
                             <div class="activity">🌙 抵達東京 (NRT/HND)</div>
                         </div>
-                        <div class="timeline-item" onclick="showLocation('Kamogawa', 35.1167, 139.9667)">
+                        <div class="timeline-item" data-lat="35.1167" data-lng="139.9667">
                             <div class="time">-</div>
                             <div class="activity">🚌 機場 → 鴨川館 (2hrs)</div>
                         </div>
@@ -524,25 +567,23 @@
                     <span class="day-date">4月1日 (二) 🦆 鴨川</span>
                 </div>
                 <div class="day-content">
-                    <div class="day-hotel">
-                        🏨 住宿：<strong>鴨川館</strong>
-                    </div>
+                    <div class="day-hotel">🏨 住宿：<strong>鴨川館</strong></div>
                     <div class="timeline">
-                        <div class="timeline-item" onclick="showLocation('Kamogawa Sea World', 35.1167, 139.9667)">
+                        <div class="timeline-item" data-lat="35.1167" data-lng="139.9667">
                             <div class="time">10:00 AM</div>
                             <div class="activity">🌊 <strong>鴨川海洋世界</strong> - 虎鯨🐋海豚🐬</div>
                         </div>
-                        <div class="timeline-item">
+                        <div class="timeline-item is-restaurant" data-lat="35.1180" data-lng="139.9650">
                             <div class="time">1:00 PM</div>
-                            <div class="activity">🍜 午餐</div>
+                            <div class="activity">🍜 午餐 - <span class="restaurant-name">Ramen Rambo</span> (拉麵)</div>
                         </div>
-                        <div class="timeline-item" onclick="showLocation('Maebara Beach Kamogawa', 35.1200, 139.9600)">
+                        <div class="timeline-item" data-lat="35.1200" data-lng="139.9600">
                             <div class="time">2-4 PM</div>
-                            <div class="activity">🏖️ Maebara Beach 漫步</div>
+                            <div class="activity">🏖️ 海灘漫步</div>
                         </div>
-                        <div class="timeline-item">
+                        <div class="timeline-item is-restaurant" data-lat="35.1150" data-lng="139.9680">
                             <div class="time">7:00 PM</div>
-                            <div class="activity">🍽️ 晚餐</div>
+                            <div class="activity">🍽️ 晚餐 - <span class="restaurant-name">Sumino</span> (海鮮)</div>
                         </div>
                     </div>
                 </div>
@@ -555,11 +596,9 @@
                     <span class="day-date">4月2日 (三) 🏰 東京</span>
                 </div>
                 <div class="day-content">
-                    <div class="day-hotel">
-                        🏨 住宿：<strong>Grand Prince Hotel</strong>
-                    </div>
+                    <div class="day-hotel">🏨 住宿：<strong>Grand Prince Hotel</strong></div>
                     <div class="timeline">
-                        <div class="timeline-item" onclick="showLocation('Costco New Sando', 35.7867, 139.8733)">
+                        <div class="timeline-item" data-lat="35.7867" data-lng="139.8733">
                             <div class="time">10:00 AM</div>
                             <div class="activity">🛒 Check-out → Costco (新三鄉)</div>
                         </div>
@@ -567,17 +606,17 @@
                             <div class="time">11 AM - 2 PM</div>
                             <div class="activity">🛍️ Costco 購物</div>
                         </div>
-                        <div class="timeline-item" onclick="showLocation('Grand Prince Hotel Takanawa', 35.6189, 139.7356)">
+                        <div class="timeline-item" data-lat="35.6189" data-lng="139.7356">
                             <div class="time">3:00 PM</div>
                             <div class="activity">🏰 Check-in Grand Prince</div>
                         </div>
-                        <div class="timeline-item" onclick="showLocation('Tokyo Tower', 35.6586, 139.7454)">
+                        <div class="timeline-item" data-lat="35.6586" data-lng="139.7454">
                             <div class="time">5:00 PM</div>
                             <div class="activity">🗼 <strong>東京鐵塔</strong> 睇夜景！</div>
                         </div>
-                        <div class="timeline-item" onclick="showLocation('Torikami Roppongi', 35.6641, 139.7293)">
+                        <div class="timeline-item is-restaurant" data-lat="35.6641" data-lng="139.7293">
                             <div class="time">7:00 PM</div>
-                            <div class="activity">🍢 <strong>Torikami</strong> 六本木晚餐</div>
+                            <div class="activity">🍢 <strong>Torikami</strong> 六本木 (已預訂)</div>
                         </div>
                     </div>
                 </div>
@@ -590,25 +629,27 @@
                     <span class="day-date">4月3日 (四) 🏰 東京</span>
                 </div>
                 <div class="day-content">
-                    <div class="day-hotel">
-                        🏨 住宿：<strong>Grand Prince Hotel</strong>
-                    </div>
+                    <div class="day-hotel">🏨 住宿：<strong>Grand Prince Hotel</strong></div>
                     <div class="timeline">
-                        <div class="timeline-item" onclick="showLocation('Senso-ji Temple', 35.7148, 139.7967)">
+                        <div class="timeline-item" data-lat="35.7148" data-lng="139.7967">
                             <div class="time">9:00 AM</div>
-                            <div class="activity">⛩️ 前往浅草</div>
+                            <div class="activity">⛩️ 前往淺草</div>
                         </div>
                         <div class="timeline-item">
                             <div class="time">9:30 AM - 1 PM</div>
-                            <div class="activity">⛩️ <strong>浅草寺</strong>、雷門、仲見世街</div>
+                            <div class="activity">⛩️ <strong>淺草寺</strong>、雷門、仲見世街</div>
                         </div>
-                        <div class="timeline-item" onclick="showLocation('Sneaker Dunk Akihabara', 35.6983, 139.7731)">
+                        <div class="timeline-item is-restaurant" data-lat="35.7110" data-lng="139.7965">
+                            <div class="time">12:30 PM</div>
+                            <div class="activity">🍜 午餐 - <span class="restaurant-name">大黑家天婦羅</span> (天婦羅)</div>
+                        </div>
+                        <div class="timeline-item" data-lat="35.6983" data-lng="139.7731">
                             <div class="time">1-3 PM</div>
                             <div class="activity">🏀 秋葉原 → <strong>Sneaker Dunk</strong> 波鞋！</div>
                         </div>
-                        <div class="timeline-item" onclick="showLocation('Sushi Banyan Kai Shinagawa', 35.6287, 139.7356)">
+                        <div class="timeline-item is-restaurant" data-lat="35.6287" data-lng="139.7356">
                             <div class="time">7:30 PM</div>
-                            <div class="activity">🍣 <strong>SUSHI BANYA KAI</strong> 品川</div>
+                            <div class="activity">🍣 <strong>SUSHI BANYA KAI</strong> 品川 (已預訂)</div>
                         </div>
                     </div>
                 </div>
@@ -621,29 +662,44 @@
                     <span class="day-date">4月4日 (五) 🚄 仙台</span>
                 </div>
                 <div class="day-content">
-                    <div class="day-hotel">
-                        🏨 住宿：<strong>Hotel Metropolitan</strong>
-                    </div>
+                    <div class="day-hotel">🏨 住宿：<strong>Hotel Metropolitan</strong></div>
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="time">9:00 AM</div>
                             <div class="activity">🛍️ Check-out + 最後shopping</div>
                         </div>
-                        <div class="timeline-item" onclick="showLocation('Tokyo Station', 35.6812, 139.7671)">
+                        <div class="timeline-item" data-lat="35.6812" data-lng="139.7671">
                             <div class="time">10:30 AM</div>
-                            <div class="activity">🚅 新干线 → 仙台 (1.5hrs)</div>
+                            <div class="activity">🚅 新幹綫 → 仙台 (1.5hrs)</div>
                         </div>
-                        <div class="timeline-item" onclick="showLocation('Sendai Station', 38.2604, 140.8824)">
+                        <div class="timeline-item" data-lat="38.2604" data-lng="140.8824">
                             <div class="time">12:00 PM</div>
                             <div class="activity">🏨 酒店放低行李</div>
                         </div>
-                        <div class="timeline-item" onclick="showLocation('Tsutsujigaoka Park Sendai', 38.2667, 140.8667)">
+                        <div class="timeline-item" data-lat="38.2667" data-lng="140.8667">
                             <div class="time">1-5 PM</div>
-                            <div class="activity">🌸 <strong>賞櫻</strong> - Tsutsujigaoka Park</div>
+                            <div class="activity">🌸 <strong>賞櫻</strong> - 榴岡公園 / 廣瀨川</div>
                         </div>
-                        <div class="timeline-item" onclick="showLocation('Rikyu Sendai', 38.2587, 140.8867)">
+                        <div class="timeline-item is-restaurant" data-lat="38.2587" data-lng="140.8867">
                             <div class="time">7:00 PM</div>
-                            <div class="activity">🍜 牛舌晚餐 (利久) 🥩</div>
+                            <div class="activity">🍜 晚餐 - <span class="restaurant-name">利久牛舌</span> (必食！)</div>
+                        </div>
+                    </div>
+                    <div class="restaurant-rec">
+                        <h4>🍴 其他餐廳推薦</h4>
+                        <div class="restaurant-list">
+                            <div class="restaurant-item" data-lat="38.2600" data-lng="140.8850" data-name="旨味太助">
+                                <div class="name">旨味太助</div>
+                                <div class="type">牛舌 🥩</div>
+                            </div>
+                            <div class="restaurant-item" data-lat="38.2590" data-lng="140.8870" data-name=" Tasuke">
+                                <div class="name">Tasuke</div>
+                                <div class="type">牛舌始祖 🥩</div>
+                            </div>
+                            <div class="restaurant-item" data-lat="38.2610" data-lng="140.8840" data-name="旨味太助">
+                                <div class="name">慢性小子</div>
+                                <div class="type">拉麵 🍜</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -656,13 +712,11 @@
                     <span class="day-date">4月5日 (六) ♨️ 蔵王</span>
                 </div>
                 <div class="day-content">
-                    <div class="day-hotel">
-                        🏨 住宿：<strong>蔵王国際ホテル</strong>
-                    </div>
+                    <div class="day-hotel">🏨 住宿：<strong>蔵王國際大酒店</strong></div>
                     <div class="timeline">
-                        <div class="timeline-item" onclick="showLocation('Zao Onsen', 38.1333, 140.3833)">
+                        <div class="timeline-item" data-lat="38.1333" data-lng="140.3833">
                             <div class="time">10:00 AM</div>
-                            <div class="activity">🛫 退房 → 蔵王温泉 (1hr)</div>
+                            <div class="activity">🛫 退房 → 蔵王溫泉 (1hr)</div>
                         </div>
                         <div class="timeline-item">
                             <div class="time">11 AM - 5 PM</div>
@@ -672,14 +726,12 @@
                             <div class="time">5:00 PM</div>
                             <div class="activity">♨️ Check-in</div>
                         </div>
-                        <div class="timeline-item">
+                        <div class="timeline-item is-restaurant" data-lat="38.1350" data-lng="140.3800">
                             <div class="time">7:00 PM</div>
-                            <div class="activity">🍽️ 晚餐 (溫泉街)</div>
+                            <div class="activity">🍽️ 晚餐 - <span class="restaurant-name">溫泉街食堂</span> (山產)</div>
                         </div>
                     </div>
-                    <div class="note">
-                        💡 4月滑雪場關閉，但纜車同溫泉一樣正！
-                    </div>
+                    <div class="note">💡 4月滑雪場關閉，但纜車同溫泉一樣正！</div>
                 </div>
             </div>
             
@@ -690,25 +742,23 @@
                     <span class="day-date">4月6日 (日) 🏙️ 仙台</span>
                 </div>
                 <div class="day-content">
-                    <div class="day-hotel">
-                        🏨 住宿：<strong>Hotel Metropolitan</strong>
-                    </div>
+                    <div class="day-hotel">🏨 住宿：<strong>Hotel Metropolitan</strong></div>
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="time">9:00 AM</div>
                             <div class="activity">♨️ 朝早溫泉 ♨️</div>
                         </div>
-                        <div class="timeline-item" onclick="showLocation('Nikka Miyagikyo Distillery', 38.3167, 140.5667)">
+                        <div class="timeline-item" data-lat="38.3167" data-lng="140.5667">
                             <div class="time">1-3 PM</div>
                             <div class="activity">🥃 <strong>Nikka 宮崎峽蒸餾所</strong></div>
                         </div>
-                        <div class="timeline-item" onclick="showLocation('Hotel Metropolitan Sendai', 38.2604, 140.8824)">
+                        <div class="timeline-item" data-lat="38.2604" data-lng="140.8824">
                             <div class="time">5:00 PM</div>
                             <div class="activity">🏨 返回仙台 + Check-in</div>
                         </div>
-                        <div class="timeline-item">
+                        <div class="timeline-item is-restaurant" data-lat="38.2580" data-lng="140.8880">
                             <div class="time">7:00 PM</div>
-                            <div class="activity">🍜 晚餐</div>
+                            <div class="activity">🍜 晚餐 - <span class="restaurant-name">毛豆料理店</span> (特色)</div>
                         </div>
                     </div>
                 </div>
@@ -721,25 +771,40 @@
                     <span class="day-date">4月7日 (一) 🏙️ 仙台</span>
                 </div>
                 <div class="day-content">
-                    <div class="day-hotel">
-                        🏨 住宿：<strong>Hotel Metropolitan</strong>
-                    </div>
+                    <div class="day-hotel">🏨 住宿：<strong>Hotel Metropolitan</strong></div>
                     <div class="timeline">
-                        <div class="timeline-item" onclick="showLocation('Sendai Castle', 38.2689, 140.8722)">
+                        <div class="timeline-item" data-lat="38.2689" data-lng="140.8722">
                             <div class="time">9:00 AM</div>
                             <div class="activity">🏯 <strong>仙台城跡</strong></div>
                         </div>
-                        <div class="timeline-item" onclick="showLocation('Zuihoden', 38.2711, 140.8756)">
+                        <div class="timeline-item" data-lat="38.2711" data-lng="140.8756">
                             <div class="time">11:00 AM</div>
                             <div class="activity">🪦 <strong>瑞鳳殿</strong></div>
                         </div>
-                        <div class="timeline-item">
+                        <div class="timeline-item is-restaurant" data-lat="38.2595" data-lng="140.8860">
                             <div class="time">12:00 PM</div>
-                            <div class="activity">🍜 午餐 (牛舌！) 🥩</div>
+                            <div class="activity">🍜 午餐 - <span class="restaurant-name">利久牛舌</span> (再食一次！)</div>
                         </div>
                         <div class="timeline-item">
                             <div class="time">1-5 PM</div>
-                            <div class="activity">🛍️ 購物 + 伴手禮</div>
+                            <div class="activity">🛍️ 購物 + 伴手禮 (毛豆、牛舌)</div>
+                        </div>
+                    </div>
+                    <div class="restaurant-rec">
+                        <h4>🛍️ 伴手禮推薦</h4>
+                        <div class="restaurant-list">
+                            <div class="restaurant-item">
+                                <div class="name">喜久福</div>
+                                <div class="type">毛豆甜品 🫛</div>
+                            </div>
+                            <div class="restaurant-item">
+                                <div class="name">優先庵</div>
+                                <div class="type">和果子 🍡</div>
+                            </div>
+                            <div class="restaurant-item">
+                                <div class="name">牛舌乾</div>
+                                <div class="type">手信 🥩</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -752,15 +817,17 @@
                     <span class="day-date">4月8日 (二) 🛫 回家</span>
                 </div>
                 <div class="day-content">
-                    <div class="day-hotel">
-                        🏨 住宿：<strong>Hotel Metropolitan</strong>
-                    </div>
+                    <div class="day-hotel">🏨 住宿：<strong>Hotel Metropolitan</strong></div>
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="time">9 AM - 12 PM</div>
                             <div class="activity">🛍️ 最後shopping + 補貨</div>
                         </div>
-                        <div class="timeline-item" onclick="showLocation('Sendai Airport', 38.1386, 140.9167)">
+                        <div class="timeline-item is-restaurant" data-lat="38.2570" data-lng="140.8840">
+                            <div class="time">12:00 PM</div>
+                            <div class="activity">🍜 午餐 - <span class="restaurant-name">仙台站前商圈</span></div>
+                        </div>
+                        <div class="timeline-item" data-lat="38.1386" data-lng="140.9167">
                             <div class="time">3:00 PM</div>
                             <div class="activity">✈️ 前往機場</div>
                         </div>
@@ -824,39 +891,82 @@
     
     <button class="fab" onclick="window.print()">🖨️</button>
     
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Google Maps functionality
-        function showLocation(placeName, lat, lng) {
-            const mapFrame = document.getElementById('mapFrame');
-            const embedUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3240!2d${lng}!3d${lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzXCsIw3LjIiTiAxMznCsDI0JzAuNiJX!5e0!3m2!1sen!2sjp!4v1`;
+        // 初始化地圖
+        let map;
+        let markers = [];
+        
+        function initMap() {
+            map = L.map('map').setView([38.0, 140.0], 6);
             
-            mapFrame.src = embedUrl;
+            // 使用 OpenStreetMap 圖層 (免費)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
             
-            // Update active tag
+            // 點擊地圖上的標籤
             document.querySelectorAll('.location-tag').forEach(tag => {
-                tag.classList.remove('active');
+                tag.addEventListener('click', function() {
+                    const lat = parseFloat(this.dataset.lat);
+                    const lng = parseFloat(this.dataset.lng);
+                    showLocation(lat, lng, this.textContent);
+                });
             });
-            event.target.classList.add('active');
+            
+            // 點擊行程中的項目
+            document.querySelectorAll('.timeline-item').forEach(item => {
+                if (item.dataset.lat && item.dataset.lng) {
+                    item.addEventListener('click', function() {
+                        const lat = parseFloat(this.dataset.lat);
+                        const lng = parseFloat(this.dataset.lng);
+                        const name = this.querySelector('.activity')?.textContent || '景點';
+                        showLocation(lat, lng, name);
+                    });
+                }
+            });
+            
+            // 點擊餐廳推薦
+            document.querySelectorAll('.restaurant-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const lat = parseFloat(this.dataset.lat);
+                    const lng = parseFloat(this.dataset.lng);
+                    const name = this.dataset.name || this.querySelector('.name').textContent;
+                    showLocation(lat, lng, name);
+                });
+            });
+        }
+        
+        function showLocation(lat, lng, name) {
+            // 清除舊標記
+            markers.forEach(m => map.removeLayer(m));
+            markers = [];
+            
+            // 移動地圖
+            map.setView([lat, lng], 14);
+            
+            // 添加新標記
+            const marker = L.marker([lat, lng])
+                .addTo(map)
+                .bindPopup(`<b>${name}</b>`)
+                .openPopup();
+            
+            markers.push(marker);
+            
+            // 更新 active 狀態
+            document.querySelectorAll('.location-tag').forEach(t => t.classList.remove('active'));
             
             // Scroll to map
             document.querySelector('.map-section').scrollIntoView({behavior: 'smooth'});
         }
         
-        function scrollToSection(sectionId) {
-            document.getElementById(sectionId).scrollIntoView({behavior: 'smooth'});
-            
-            // Update active tab
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({behavior: 'smooth'});
         }
         
-        // Initialize - show Tokyo as default
-        document.addEventListener('DOMContentLoaded', function() {
-            const mapFrame = document.getElementById('mapFrame');
-            mapFrame.src = 'https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d3240!2d139.76!3d35.68!4z!3m9!1s0x0:0x0!5e0!3m2!1sen!2sjp!4v1';
-        });
+        // 頁面載入後初始化
+        document.addEventListener('DOMContentLoaded', initMap);
     </script>
 </body>
 </html>
