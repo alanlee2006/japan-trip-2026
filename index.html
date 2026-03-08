@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎌 日本之旅 2026 | sheep8's Japan Trip</title>
+    <style>
+        :root {
+            --primary: #e74c3c;
+            --secondary: #3498db;
+            --accent: #f39c12;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --pink: #ffb7b2;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Noto Sans HK", "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: white;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+        }
+        
+        .date-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        
+        /* Accommodation Timeline */
+        .accommodation-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        h2 {
+            color: var(--dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .hotel-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .hotel-card {
+            background: linear-gradient(135deg, var(--light) 0%, #fff 100%);
+            padding: 15px;
+            border-radius: 15px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .hotel-card .date {
+            font-weight: bold;
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+        
+        .hotel-card .name {
+            color: var(--dark);
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        /* Day Cards */
+        .day-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .day-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+        }
+        
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .day-number {
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .day-date {
+            font-size: 1.1rem;
+            color: #666;
+        }
+        
+        .day-hotel {
+            background: var(--light);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .day-hotel strong {
+            color: var(--secondary);
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+        
+        .time {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+        
+        .activity {
+            color: var(--dark);
+            margin-top: 5px;
+        }
+        
+        .emoji {
+            font-size: 1.2rem;
+            margin-right: 5px;
+        }
+        
+        /* Highlights */
+        .highlight {
+            display: inline-block;
+            background: linear-gradient(135deg, #fff5f5, #ffeaa7);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            margin: 2px;
+            border: 1px solid var(--pink);
+        }
+        
+        /* Notes */
+        .note {
+            background: #fff9e6;
+            border-left: 4px solid var(--accent);
+            padding: 15px;
+            border-radius: 0 10px 10px 0;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        .footer-love {
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .day-header { flex-direction: column; gap: 10px; }
+            .hotel-list { grid-template-columns: 1fr; }
+        }
+        
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.4);
+            transition: transform 0.3s;
+        }
+        
+        .print-btn:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>🎌 日本之旅 2026</h1>
+            <p class="subtitle">sheep8's Japan Trip</p>
+            <span class="date-badge">📅 3月31日 - 4月9日 (10日9夜)</span>
+        </header>
+        
+        <!-- Accommodation -->
+        <section class="accommodation-section">
+            <h2>🏨 住宿一覽</h2>
+            <div class="hotel-list">
+                <div class="hotel-card">
+                    <div class="date">3/31 - 4/1</div>
+                    <div class="name">🦆 鴨川館</div>
+                </div>
+                <div class="hotel-card">
+                    <div class="date">4/2 - 4/5</div>
+                    <div class="name">🏰 Grand Prince Hotel</div>
+                </div>
+                <div class="hotel-card">
+                    <div class="date">4/5, 4/7, 4/8</div>
+                    <div class="name">🏙️ Hotel Metropolitan</div>
+                </div>
+                <div class="hotel-card">
+                    <div class="date">4/6</div>
+                    <div class="name">♨️ 蔵王国際ホテル</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Day 1 -->
+        <div class="day-card">
+            <div class="day-header">
+                <span class="day-number">1</span>
+                <span class="day-date">3月31日 (一)</span>
+            </div>
+            <div class="day-hotel">
+                🏨 住宿：<strong>鴨川館</strong> (千葉縣)
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="time">晚機</div>
+                    <div class="activity">🌙 抵達東京 (NRT/HND)</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">-</div>
+                    <div class="activity">🚌 機場 → 鴨川館 (巴士約2hrs)</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">晚間</div>
+                    <div class="activity">♨️ Check-in + 溫泉</div>
+                </div>
+            </div>
+            <div class="note">
+                💡 如果晏機到，就浸溫泉抖下～
+            </div>
+        </div>
+        
+        <!-- Day 2 -->
+        <div class="day-card">
+            <div class="day-header">
+                <span class="day-number">2</span>
+                <span class="day-date">4月1日 (二)</span>
+            </div>
+            <div class="day-hotel">
+                🏨 住宿：<strong>鴨川館</strong> (千葉縣)
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="time">10:00 AM</div>
+                    <div class="activity">🌊 <strong>鴨川海洋世界</strong> - 睇虎鯨🐋同海豚🐬表演</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">1:00 PM</div>
+                    <div class="activity">🍜 午餐 (場內/附近)</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">2-4 PM</div>
+                    <div class="activity">🏖️ Maebara Beach / Uomizuka 觀景台漫步</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">7:00 PM</div>
+                    <div class="activity">🍽️ 晚餐 (酒店/附近)</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Day 3 -->
+        <div class="day-card">
+            <div class="day-header">
+                <span class="day-number">3</span>
+                <span class="day-date">4月2日 (三)</span>
+            </div>
+            <div class="day-hotel">
+                🏨 住宿：<strong>Grand Prince Hotel Shin Takanawa</strong> (東京)
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="time">10:00 AM</div>
+                    <div class="activity">🛒 Check-out → 前往 Costco (新三鄉)</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">11 AM - 2 PM</div>
+                    <div class="activity">🛒 Costco 購物 🛍️</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">3:00 PM</div>
+                    <div class="activity">🏰 Check-in Grand Prince Hotel</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">5:00 PM</div>
+                    <div class="activity">🗼 <strong>東京鐵塔</strong> 睇夜景！</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">7:00 PM</div>
+                    <div class="activity">🍢 <strong>Torikami</strong> 六本木晚餐</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Day 4 -->
+        <div class="day-card">
+            <div class="day-header">
+                <span class="day-number">4</span>
+                <span class="day-date">4月3日 (四)</span>
+            </div>
+            <div class="day-hotel">
+                🏨 住宿：<strong>Grand Prince Hotel Shin Takanawa</strong> (東京)
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="time">9:00 AM</div>
+                    <div class="activity">⛩️ 前往浅草</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">9:30 AM - 1 PM</div>
+                    <div class="activity">⛩️ <strong>浅草寺</strong>、雷門、仲見世街</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">1:00 PM</div>
+                    <div class="activity">🍜 午餐 (仲見世街小食)</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">1-3 PM</div>
+                    <div class="activity">🏀 秋葉原 → <strong>Sneaker Dunk</strong> 波鞋店！</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">7:30 PM</div>
+                    <div class="activity">🍣 <strong>SUSHI BANYA KAI</strong> 品川 (已預訂)</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Day 5 -->
+        <div class="day-card">
+            <div class="day-header">
+                <span class="day-number">5</span>
+                <span class="day-date">4月4日 (五)</span>
+            </div>
+            <div class="day-hotel">
+                🏨 住宿：<strong>Grand Prince</strong> → <strong>Hotel Metropolitan</strong> (仙台)
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="time">9:00 AM</div>
+                    <div class="activity">🛍️ Check-out + 最後東京shopping</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">10:30 AM</div>
+                    <div class="activity">🚅 新干线 → 仙台 (1.5hrs)</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">12:00 PM</div>
+                    <div class="activity">🏨 酒店放低行李</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">1-5 PM</div>
+                    <div class="activity">🌸 <strong>賞櫻</strong> - Tsutsujigaoka Park / 廣瀨川</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">7:00 PM</div>
+                    <div class="activity">🍜 牛舌晚餐 (利久/旨味太助) 🥩</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Day 6 -->
+        <div class="day-card">
+            <div class="day-header">
+                <span class="day-number">6</span>
+                <span class="day-date">4月5日 (六)</span>
+            </div>
+            <div class="day-hotel">
+                🏨 住宿：<strong>Hotel Metropolitan</strong> → <strong>蔵王国際ホテル</strong>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="time">10:00 AM</div>
+                    <div class="activity">🛫 退房 → 前往蔵王温泉 (1hr)</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">11 AM - 5 PM</div>
+                    <div class="activity">🚡 <strong>蔵王纜車</strong> 上山睇風景 + 行溫泉街</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">5:00 PM</div>
+                    <div class="activity">♨️ Check-in 蔵王国際ホテル</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">7:00 PM</div>
+                    <div class="activity">🍽️ 晚餐 (溫泉街)</div>
+                </div>
+            </div>
+            <div class="note">
+                💡 4月滑雪場關閉，但纜車同溫泉一樣正！
+            </div>
+        </div>
+        
+        <!-- Day 7 -->
+        <div class="day-card">
+            <div class="day-header">
+                <span class="day-number">7</span>
+                <span class="day-date">4月6日 (日)</span>
+            </div>
+            <div class="day-hotel">
+                🏨 住宿：<strong>蔵王</strong> → <strong>Hotel Metropolitan</strong> (仙台)
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="time">9:00 AM</div>
+                    <div class="activity">♨️ 朝早溫泉 ♨️</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">12:00 PM</div>
+                    <div class="activity">🛫 Check-out</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">1-3 PM</div>
+                    <div class="activity">🥃 <strong>Nikka 宮崎峽蒸餾所</strong> - 參觀+試飲</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">5:00 PM</div>
+                    <div class="activity">🏨 返回仙台 + Check-in</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">7:00 PM</div>
+                    <div class="activity">🍜 晚餐</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Day 8 -->
+        <div class="day-card">
+            <div class="day-header">
+                <span class="day-number">8</span>
+                <span class="day-date">4月7日 (一)</span>
+            </div>
+            <div class="day-hotel">
+                🏨 住宿：<strong>Hotel Metropolitan</strong> (仙台)
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="time">9:00 AM</div>
+                    <div class="activity">🏯 <strong>仙台城跡</strong> - 伊達政宗城堡</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">11:00 AM</div>
+                    <div class="activity">🪦 <strong>瑞鳳殿</strong> - 政宗陵墓</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">12:00 PM</div>
+                    <div class="activity">🍜 午餐 (牛舌！) 🥩</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">1-5 PM</div>
+                    <div class="activity">🛍️ 購物 + 伴手禮 (毛豆、牛舌手信)</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Day 9 -->
+        <div class="day-card">
+            <div class="day-header">
+                <span class="day-number">9</span>
+                <span class="day-date">4月8日 (二)</span>
+            </div>
+            <div class="day-hotel">
+                🏨 住宿：<strong>Hotel Metropolitan</strong> (仙台)
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="time">9 AM - 12 PM</div>
+                    <div class="activity">🛍️ 最後shopping + 補貨</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">12:00 PM</div>
+                    <div class="activity">🛫 Check-out</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">3:00 PM</div>
+                    <div class="activity">✈️ 前往機場</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">5:00 PM</div>
+                    <div class="activity">🛫 <strong>起飛回香港</strong></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Day 10 -->
+        <div class="day-card">
+            <div class="day-header">
+                <span class="day-number">10</span>
+                <span class="day-date">4月9日 (三)</span>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="time">5:00 PM</div>
+                    <div class="activity">🏠 抵達香港</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Important Notes -->
+        <section class="accommodation-section">
+            <h2>⚠️ 重要預訂</h2>
+            <div class="highlight" style="background: #fff5f5; padding: 15px; border-radius: 10px;">
+                <div>🍢 <strong>Torikami</strong> - 提前2-4星期book</div>
+                <div style="margin-top:10px">🥃 <strong>宮崎峽蒸餾所</strong> - 提前1星期book</div>
+                <div style="margin-top:10px">🏨 <strong>酒店</strong> - 提前1-2個月book</div>
+                <div style="margin-top:10px">🚄 <strong>JR Pass</strong> - 提前購買</div>
+            </div>
+        </section>
+        
+        <footer>
+            <p>🎌 Made with ❤️ for sheep8's Japan Trip 2026</p>
+            <p class="footer-love">Last updated: 2026年3月8日</p>
+        </footer>
+    </div>
+    
+    <button class="print-btn" onclick="window.print()">🖨️ 列印行程</button>
+</body>
+</html>
