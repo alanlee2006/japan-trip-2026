@@ -789,9 +789,9 @@
                             <div class="time">10:00 AM</div>
                             <div class="activity">🌊 <strong>鴨川海洋世界</strong> - 虎鯨🐋海豚🐬</div>
                         </div>
-                        <div class="timeline-item is-restaurant" data-lat="35.1180" data-lng="139.9650" data-name="Ramen Rambo">
+                        <div class="timeline-item is-restaurant" data-lat="35.1156" data-lng="139.9662" data-name="Marufuji 丸富士">
                             <div class="time">1:00 PM</div>
-                            <div class="activity">🍜 午餐 - <span class="restaurant-name">Ramen Rambo</span> (拉麵)</div>
+                            <div class="activity">🍜 午餐 - <span class="restaurant-name">Marufuji 丸富士</span> (迴轉壽司)</div>
                         </div>
                         <div class="timeline-item" data-lat="35.1200" data-lng="139.9600" data-name="前原海灘">
                             <div class="time">2-4 PM</div>
@@ -803,19 +803,19 @@
                         </div>
                     </div>
                     <div class="restaurant-rec">
-                        <h4>🍴 午餐推薦 (3間)</h4>
+                        <h4>🍴 午餐推薦 (3間當地人氣小店)</h4>
                         <div class="restaurant-list">
-                            <div class="restaurant-item" data-lat="35.1180" data-lng="139.9650" data-name="Ramen Rambo">
-                                <div class="name">Ramen Rambo</div>
+                            <div class="restaurant-item" data-lat="35.1156" data-lng="139.9662" data-name="Marufuji 壽司">
+                                <div class="name">Marufuji 丸富士</div>
+                                <div class="type">迴轉壽司 🍣</div>
+                            </div>
+                            <div class="restaurant-item" data-lat="35.1148" data-lng="139.9658" data-name="Kamogawa Soba">
+                                <div class="name">錦亭 蕎麥麵</div>
+                                <div class="type">蕎麥麵 🍜</div>
+                            </div>
+                            <div class="restaurant-item" data-lat="35.1162" data-lng="139.9645" data-name="Tanakaya">
+                                <div class="name">たなか屋 拉麵</div>
                                 <div class="type">拉麵 🍜</div>
-                            </div>
-                            <div class="restaurant-item" data-lat="35.1170" data-lng="139.9660" data-name="Sushi Gen">
-                                <div class="name">Sushi Gen</div>
-                                <div class="type">壽司 🍣</div>
-                            </div>
-                            <div class="restaurant-item" data-lat="35.1190" data-lng="139.9640" data-name="Umi">
-                                <div class="name">Umi</div>
-                                <div class="type">海鮮 🦐</div>
                             </div>
                         </div>
                     </div>
@@ -1352,6 +1352,10 @@
                 item.addEventListener('click', function() {
                     const lat = parseFloat(this.dataset.lat);
                     const lng = parseFloat(this.dataset.lng);
+                    if (isNaN(lat) || isNaN(lng)) {
+                        console.log('No coordinates for this restaurant');
+                        return;
+                    }
                     const name = this.dataset.name || this.querySelector('.name').textContent;
                     showLocation(lat, lng, name);
                 });
