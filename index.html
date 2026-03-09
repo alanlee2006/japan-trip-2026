@@ -703,7 +703,7 @@
     
     <div class="container">
         <!-- Map Section -->
-        <section class="glass-section">
+        <section class="glass-section" id="map-section">
             <h2 class="section-title"><i class="fas fa-map-marked-alt"></i> 地圖總覽</h2>
             <div id="map"></div>
             <div class="location-tags">
@@ -1377,7 +1377,7 @@
             markers.push(marker);
             
             document.querySelectorAll('.location-tag').forEach(t => t.classList.remove('active'));
-            document.querySelector('.map-section').scrollIntoView({behavior: 'smooth'});
+            document.getElementById('map-section').scrollIntoView({behavior: 'smooth'});
         }
         
         function scrollToSection(id) {
