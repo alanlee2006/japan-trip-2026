@@ -565,7 +565,7 @@
         .restaurant-ratings {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             margin-top: 8px;
             flex-wrap: wrap;
         }
@@ -573,10 +573,10 @@
         .rating-badge {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 0.75rem;
+            gap: 3px;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 0.7rem;
             font-weight: 600;
         }
         
@@ -591,7 +591,12 @@
             color: white;
         }
         
-        .rating-badge i { font-size: 0.7rem; }
+        .rating-badge i { font-size: 0.65rem; }
+        
+        .rating-badge .review-count {
+            font-size: 0.6rem;
+            opacity: 0.8;
+        }
         
         .restaurant-item:hover .rating-google { background: #333; color: #fff; }
         
@@ -865,14 +870,26 @@
                             <div class="restaurant-item" data-lat="35.1156" data-lng="139.9662" data-name="Marufuji 壽司">
                                 <div class="name">Marufuji 丸富士</div>
                                 <div class="type">迴轉壽司 🍣</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.2 (420)</span>
+                                    <span class="rating-badge rating-tabelog">3.4</span>
+                                </div>
                             </div>
                             <div class="restaurant-item" data-lat="35.1148" data-lng="139.9658" data-name="Kamogawa Soba">
                                 <div class="name">錦亭 蕎麥麵</div>
                                 <div class="type">蕎麥麵 🍜</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.3 (280)</span>
+                                    <span class="rating-badge rating-tabelog">3.5</span>
+                                </div>
                             </div>
                             <div class="restaurant-item" data-lat="35.1162" data-lng="139.9645" data-name="Tanakaya">
                                 <div class="name">たなか屋 拉麵</div>
                                 <div class="type">拉麵 🍜</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.1 (190)</span>
+                                    <span class="rating-badge rating-tabelog">3.2</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -916,14 +933,26 @@
                             <div class="restaurant-item" data-lat="35.7865" data-lng="139.8735" data-name="つけ麺TETSU">
                                 <div class="name">つけ麺 TETSU</div>
                                 <div class="type">沾麵 🍜</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.5 (1.2k)</span>
+                                    <span class="rating-badge rating-tabelog">3.8</span>
+                                </div>
                             </div>
                             <div class="restaurant-item" data-lat="35.7875" data-lng="139.8745" data-name="安楽亭 三郷店">
                                 <div class="name">安楽亭 (Anrakutei)</div>
                                 <div class="type">涮涮鍋 🥘</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.2 (850)</span>
+                                    <span class="rating-badge rating-tabelog">3.5</span>
+                                </div>
                             </div>
                             <div class="restaurant-item" data-lat="35.7880" data-lng="139.8750" data-name="Costco Food Court">
                                 <div class="name">Costco Food Court</div>
                                 <div class="type">快餐 🍕</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.3 (2.1k)</span>
+                                    <span class="rating-badge rating-tabelog">-</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -968,7 +997,7 @@
                                 <div class="name">大黑家天婦羅</div>
                                 <div class="type">天婦羅 🍤</div>
                                 <div class="restaurant-ratings">
-                                    <span class="rating-badge rating-google">⭐ 4.2/5</span>
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.2 (1.2k)</span>
                                     <span class="rating-badge rating-tabelog">3.5</span>
                                 </div>
                             </div>
@@ -976,7 +1005,7 @@
                                 <div class="name">雷門庵</div>
                                 <div class="type">蕎麥麵 🍜</div>
                                 <div class="restaurant-ratings">
-                                    <span class="rating-badge rating-google">⭐ 4.3/5</span>
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.3 (800)</span>
                                     <span class="rating-badge rating-tabelog">3.6</span>
                                 </div>
                             </div>
@@ -984,7 +1013,7 @@
                                 <div class="name">淺草今半</div>
                                 <div class="type">壽喜燒 🥩</div>
                                 <div class="restaurant-ratings">
-                                    <span class="rating-badge rating-google">⭐ 4.5/5</span>
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.5 (2.1k)</span>
                                     <span class="rating-badge rating-tabelog">3.9</span>
                                 </div>
                             </div>
@@ -1031,7 +1060,7 @@
                                 <div class="name">無敵家拉麵</div>
                                 <div class="type">拉麵 🍜</div>
                                 <div class="restaurant-ratings">
-                                    <span class="rating-badge rating-google">⭐ 4.6/5</span>
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.6 (3.5k)</span>
                                     <span class="rating-badge rating-tabelog">3.8</span>
                                 </div>
                             </div>
@@ -1039,7 +1068,7 @@
                                 <div class="name">大勝軒</div>
                                 <div class="type">沾麵 🫦</div>
                                 <div class="restaurant-ratings">
-                                    <span class="rating-badge rating-google">⭐ 4.4/5</span>
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.4 (2.8k)</span>
                                     <span class="rating-badge rating-tabelog">3.7</span>
                                 </div>
                             </div>
@@ -1054,7 +1083,7 @@
                                 <div class="name">仙臺定食</div>
                                 <div class="type">家庭料理 🍱</div>
                                 <div class="restaurant-ratings">
-                                    <span class="rating-badge rating-google">⭐ 4.3/5</span>
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.3 (650)</span>
                                     <span class="rating-badge rating-tabelog">3.5</span>
                                 </div>
                             </div>
@@ -1062,7 +1091,7 @@
                                 <div class="name">Zunda</div>
                                 <div class="type">毛豆甜品 🫛</div>
                                 <div class="restaurant-ratings">
-                                    <span class="rating-badge rating-google">⭐ 4.5/5</span>
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.5 (1.8k)</span>
                                     <span class="rating-badge rating-tabelog">3.8</span>
                                 </div>
                             </div>
@@ -1070,7 +1099,7 @@
                                 <div class="name">慢性小子</div>
                                 <div class="type">拉麵 🍜</div>
                                 <div class="restaurant-ratings">
-                                    <span class="rating-badge rating-google">⭐ 4.4/5</span>
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.4 (920)</span>
                                     <span class="rating-badge rating-tabelog">3.6</span>
                                 </div>
                             </div>
@@ -1083,7 +1112,7 @@
                                 <div class="name">寿司田</div>
                                 <div class="type">壽司 🍣</div>
                                 <div class="restaurant-ratings">
-                                    <span class="rating-badge rating-google">⭐ 4.6/5</span>
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.6 (2.3k)</span>
                                     <span class="rating-badge rating-tabelog">3.9</span>
                                 </div>
                             </div>
@@ -1091,7 +1120,7 @@
                                 <div class="name">味匠</div>
                                 <div class="type">割烹 🍶</div>
                                 <div class="restaurant-ratings">
-                                    <span class="rating-badge rating-google">⭐ 4.4/5</span>
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.4 (780)</span>
                                     <span class="rating-badge rating-tabelog">3.7</span>
                                 </div>
                             </div>
@@ -1099,7 +1128,7 @@
                                 <div class="name">炙屋</div>
                                 <div class="type">居酒屋 🍺</div>
                                 <div class="restaurant-ratings">
-                                    <span class="rating-badge rating-google">⭐ 4.2/5</span>
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.2 (540)</span>
                                     <span class="rating-badge rating-tabelog">3.4</span>
                                 </div>
                             </div>
@@ -1180,14 +1209,26 @@
                             <div class="restaurant-item" data-lat="38.2580" data-lng="140.8880" data-name="毛豆料理店">
                                 <div class="name">毛豆料理店</div>
                                 <div class="type">毛豆特色 🫛</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.4 (1.1k)</span>
+                                    <span class="rating-badge rating-tabelog">3.6</span>
+                                </div>
                             </div>
                             <div class="restaurant-item" data-lat="38.2590" data-lng="140.8870" data-name="壽司田">
                                 <div class="name">壽司田</div>
                                 <div class="type">壽司 🍣</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.5 (980)</span>
+                                    <span class="rating-badge rating-tabelog">3.7</span>
+                                </div>
                             </div>
                             <div class="restaurant-item" data-lat="38.2600" data-lng="140.8860" data-name="味太郎">
                                 <div class="name">味太郎</div>
                                 <div class="type">居酒屋 🍺</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.1 (620)</span>
+                                    <span class="rating-badge rating-tabelog">3.3</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1227,14 +1268,26 @@
                             <div class="restaurant-item">
                                 <div class="name">喜久福</div>
                                 <div class="type">毛豆甜品 🫛</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.6 (2.5k)</span>
+                                    <span class="rating-badge rating-tabelog">-</span>
+                                </div>
                             </div>
                             <div class="restaurant-item">
                                 <div class="name">優先庵</div>
                                 <div class="type">和果子 🍡</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.4 (1.3k)</span>
+                                    <span class="rating-badge rating-tabelog">-</span>
+                                </div>
                             </div>
                             <div class="restaurant-item">
                                 <div class="name">毛豆奶茶</div>
                                 <div class="type">手信 🧋</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.3 (890)</span>
+                                    <span class="rating-badge rating-tabelog">-</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1244,14 +1297,26 @@
                             <div class="restaurant-item" data-lat="38.2600" data-lng="140.8850" data-name="味匠">
                                 <div class="name">味匠</div>
                                 <div class="type">割烹 🍶</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.4 (780)</span>
+                                    <span class="rating-badge rating-tabelog">3.7</span>
+                                </div>
                             </div>
                             <div class="restaurant-item" data-lat="38.2600" data-lng="140.8860" data-name="烤肉苑">
                                 <div class="name">烤肉苑</div>
                                 <div class="type">燒肉 🥩</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.5 (1.4k)</span>
+                                    <span class="rating-badge rating-tabelog">3.8</span>
+                                </div>
                             </div>
                             <div class="restaurant-item" data-lat="38.2585" data-lng="140.8865" data-name="鮨處">
                                 <div class="name">鮨處</div>
                                 <div class="type">壽司 🍣</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.6 (920)</span>
+                                    <span class="rating-badge rating-tabelog">3.9</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1291,14 +1356,26 @@
                             <div class="restaurant-item" data-lat="38.2610" data-lng="140.8850" data-name="壽司田">
                                 <div class="name">壽司田</div>
                                 <div class="type">壽司 🍣</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.6 (2.3k)</span>
+                                    <span class="rating-badge rating-tabelog">3.9</span>
+                                </div>
                             </div>
                             <div class="restaurant-item" data-lat="38.2590" data-lng="140.8840" data-name="Izakaya Sangria">
                                 <div class="name">Izakaya Sangria</div>
                                 <div class="type">居酒屋 🍺</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.2 (480)</span>
+                                    <span class="rating-badge rating-tabelog">3.4</span>
+                                </div>
                             </div>
                             <div class="restaurant-item" data-lat="38.2600" data-lng="140.8860" data-name="仙臺 tachibana">
                                 <div class="name">Tachibana</div>
                                 <div class="type">割烹 🍶</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.3 (650)</span>
+                                    <span class="rating-badge rating-tabelog">3.5</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1350,14 +1427,26 @@
                             <div class="restaurant-item" data-lat="35.6850" data-lng="139.7640" data-name="Elevator">
                                 <div class="name">Elevator</div>
                                 <div class="type">漢堡扒 🥩</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.4 (1.8k)</span>
+                                    <span class="rating-badge rating-tabelog">3.6</span>
+                                </div>
                             </div>
                             <div class="restaurant-item" data-lat="35.6840" data-lng="139.7630" data-name="Maru">
                                 <div class="name">Maru</div>
                                 <div class="type">日式家庭料理 🍱</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.2 (920)</span>
+                                    <span class="rating-badge rating-tabelog">3.4</span>
+                                </div>
                             </div>
                             <div class="restaurant-item" data-lat="35.6860" data-lng="139.7650" data-name="駅弁">
                                 <div class="name">駅弁 (便當)</div>
                                 <div class="type">手信 🍱</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.3 (1.2k)</span>
+                                    <span class="rating-badge rating-tabelog">-</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1367,14 +1456,26 @@
                             <div class="restaurant-item" data-lat="35.6850" data-lng="139.7620" data-name="丸之內Owl">
                                 <div class="name">丸之內Owl</div>
                                 <div class="type">時尚 🛍️</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.5 (2.1k)</span>
+                                    <span class="rating-badge rating-tabelog">-</span>
+                                </div>
                             </div>
                             <div class="restaurant-item" data-lat="35.6860" data-lng="139.7650" data-name="Don Quijote 有樂町">
                                 <div class="name">Don Quijote</div>
                                 <div class="type">激安免稅 💰</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.4 (5.2k)</span>
+                                    <span class="rating-badge rating-tabelog">-</span>
+                                </div>
                             </div>
                             <div class="restaurant-item" data-lat="35.6845" data-lng="139.7635" data-name="Loft">
                                 <div class="name">Loft</div>
                                 <div class="type">生活雜貨 🧸</div>
+                                <div class="restaurant-ratings">
+                                    <span class="rating-badge rating-google"><i class="fab fa-google"></i> 4.5 (3.8k)</span>
+                                    <span class="rating-badge rating-tabelog">-</span>
+                                </div>
                             </div>
                         </div>
                     </div>
