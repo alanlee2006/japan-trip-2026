@@ -2,6 +2,7 @@
 <html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🎌 日本之旅 2026 | sheep8's Japan Trip</title>
     
@@ -722,6 +723,12 @@
         ::-webkit-scrollbar-track { background: var(--light); }
         ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--primary-dark); }
+        
+        /* Hide unknown buttons */
+        .leaflet-control-zoom a[title="Geolocate"], 
+        .leaflet-control-locate a,
+        a[title*="G"],
+        .goog-te-banner-frame { display: none !important; }
         
         /* Responsive */
         @media (max-width: 768px) {
